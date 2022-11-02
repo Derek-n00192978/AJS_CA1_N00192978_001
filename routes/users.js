@@ -3,7 +3,7 @@ const router = express.Router();
 
 const { 
    register,
-   login,
+   login
   } = require('../controllers/user_controller');
 
 router
