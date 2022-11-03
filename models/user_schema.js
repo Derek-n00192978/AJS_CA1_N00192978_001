@@ -1,5 +1,5 @@
 const { Schema, model } = require('mongoose');
-
+const bcrypt = require('bcryptjs'); 
 const userSchema = Schema(
     {
         fName:{
@@ -10,6 +10,10 @@ const userSchema = Schema(
             type: String,
             required: [true, 'lName field is required'],
         },
+        password:{
+            type:String,
+            required: [true, 'pword field is required']
+        },
         phone:{
             type: String,
         },
@@ -18,19 +22,25 @@ const userSchema = Schema(
             required: [true, 'email field is required'],
         },
         image_id:{
-            type: String,
+            type: String
         },
         restorer:{
-            type: String,
+            type: String
         },
         modifier:{
-            type: String,
+            type: String
         },
         enthusiast:{
-            type: String,
+            type: String
         }
 
     },
     { timestamps: true }
 );
+//password checker
+userSchema.methods.comparePassword = function(password){
+    return bcrypt.compareSync(password, this.password, function(result){
+        return result;
+    });
+};
 module.exports = model('User', userSchema);

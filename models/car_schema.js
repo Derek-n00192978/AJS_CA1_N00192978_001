@@ -4,11 +4,9 @@ const carSchema = Schema(
     {
         make:{
             type: String,
-            required: [true, 'make field is required'],
         },
         model:{
             type: String,
-            required: [true, 'model field is required'],
         },
         series:{
             type: String,
@@ -20,6 +18,15 @@ const carSchema = Schema(
             type: String,
         },
         engine_cap:{
+            type: String,
+        },
+        fuel:{
+            type: String,
+        },
+        colour:{
+            type: String,
+        },
+        transmission:{
             type: String,
         },
         body_type:{
@@ -35,4 +42,5 @@ const carSchema = Schema(
     },
     { timestamps: true }
 );
+
 module.exports = model('Car', carSchema);

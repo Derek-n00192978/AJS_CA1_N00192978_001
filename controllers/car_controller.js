@@ -1,4 +1,4 @@
-const Car = require('../models/Car_schema');
+const Car = require('../models/car_schema');
 
 const readData = (req, res) => {
     Car.find()
@@ -57,10 +57,10 @@ const readOne = (req, res) => {
 
 const createData = (req, res) => {
     //console.log(req.body);
-    let CarData = req.body;
+    let carData = req.body;
     // connect to db, check if email exists, if yes respond with error
     // if some Car info is missing, respond with error
-    Car.create(CarData)
+    Car.create(carData)
             .then((data) => {
                 console.log('New Car created',data);
                 res.status(201).json(data);
@@ -78,20 +78,7 @@ const createData = (req, res) => {
                 res.status(500).json(err);
                 }
             })
-
-    // if(data.password.length < 6){
-    //     res.status(422).json({
-    //         "msg": "Car password must be over 6 characters"
-    //     });
-    // }
-    // else{
-    //     data.id = 1;
-    //     res.status(201).json({
-    //         "msg": "All good",
-    //         "data": data
-    //     });
-    // }
-    
+   
 };
 
 const updateData = (req, res) => {
@@ -133,8 +120,7 @@ const updateData = (req, res) => {
             console.error(err);
             res.status(500).json(err);
             }
-        });
-    
+        });   
     
 };
 
