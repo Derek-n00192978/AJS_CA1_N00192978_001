@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const { loginRequired } = require('../controllers/auth_controller');
 const imageUpload = require('../utils/image_upload')
+const { loginRequired } = require('../controllers/auth_controller');
+
 
 const { 
     readData, 
