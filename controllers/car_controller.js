@@ -4,7 +4,7 @@ const readData = (req, res) => {
     Car.find()
             .then((data) => {
                 console.log(data);
-                if(data){
+                if(data.length > 0){
                     res.status(200).json(data);
                 }
                 else{
