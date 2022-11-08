@@ -35,7 +35,7 @@ const login = (req, res) => {
             // generate a token
             let token = jwt.sign({
                 email: user.email,
-                name: user.name,
+                fname: user.fname,
                 _id: user._id
                 //role: admin
             },process.env.APP_KEY) //added salt 

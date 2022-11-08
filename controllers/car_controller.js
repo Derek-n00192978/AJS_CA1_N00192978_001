@@ -28,17 +28,16 @@ const readOne = (req, res) => {
     Car.findById(id)
     .then((data) => {
         if(data){
+            let img = `${process.env.STATIC_FILES_URL}${data.image_path}`;
+            data.image_path = img;
             res.status(200).json(data);
         }
         else{
             res.status(404).json({
                 "msg": `Car with id: ${id} not found`
-            })
+            });
         }
-        // res.status(200).json({
-        //     "msg": "Sucess",
-        //     "data": data
-        // })
+        
     })
     .catch((err) => {
         console.error(err);
@@ -58,6 +57,9 @@ const readOne = (req, res) => {
 const createData = (req, res) => {
     //console.log(req.body);
     let carData = req.body;
+    if(req.file){
+        carData.image_path = req.file.filename;
+    }
     // connect to db, check if email exists, if yes respond with error
     // if some Car info is missing, respond with error
     Car.create(carData)

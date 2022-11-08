@@ -20,6 +20,9 @@ const userSchema = Schema(
         email:{
             type: String,
             required: [true, 'email field is required'],
+            unique: true,
+            lowercase: true,
+            trim: true,
         },
         image_id:{
             type: String

@@ -35,7 +35,7 @@ const carSchema = Schema(
         user_id:{
             type: String,
         },
-        image_id:{
+        image_path:{
             type: String,
         }
 
