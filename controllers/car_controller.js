@@ -1,4 +1,19 @@
 const Car = require('../models/car_schema');
+const fs = require('fs');
+const deleteImage = (fileName) => {
+    let path = `public${process.env.STATIC_FILES_URL}${fileName}`;
+fs.access(path, fs.F_OK, (err) => {
+    if(err){
+        console.error(err);
+        return;
+    }
+    //actually delete image here
+    fs.unlink(path, () => {
+        if(err) throw err;
+        console.log(`${fileName}} was deleted`)
+    });
+})
+};
 
 const readData = (req, res) => {
     Car.find()
@@ -60,6 +75,11 @@ const createData = (req, res) => {
     if(req.file){
         carData.image_path = req.file.filename;
     }
+    else {
+        return res.status(422).json({
+            message: req.imageError || "image not uploaded"
+        })
+    }
     // connect to db, check if email exists, if yes respond with error
     // if some Car info is missing, respond with error
     Car.create(carData)
@@ -87,12 +107,26 @@ const updateData = (req, res) => {
 
     let id = req.params.id;
     let body = req.body;
+    let file = req.file;
+
+    if(file){
+        body.image_path = file.filename;
+    }
+    else {
+        return res.status(422).json({
+            message: req.imageError || "image not uploaded"
+        })
+    }
 
     Car.findByIdAndUpdate(id, body, {
-        new: true
+        new: false
     })
         .then((data) => {
             if(data){
+                 //old image delete//
+                ///////////////////
+                deleteImage(data.image_path)
+                ////////////////////
                 res.status(201).json(data);
             }
             else{
@@ -129,24 +163,30 @@ const updateData = (req, res) => {
 const deleteData = (req, res) => {
 
     let id = req.params.id;
+    let imagePath = '';
 
-    Car.deleteOne({_id: id })
-    .then((data) => {
-        if(data.deletedCount){
+    Car.findById(id)
+       .then((data) => {
+            if(data){
+                imagePath = data.image_path;
+                return data.remove();
+            }
+            else{
+                res.status(400).json({
+                    "message": `Bad request, ${id} is not a valid id`
+                });
+            }
+       })
+       //changed promise
+       .then((data) => {
+            console.log('car removed');
+            //////Delete Image/////////
+            deleteImage(imagePath);
+            ///////////////////////////
             res.status(200).json({
-                "msg": `Car with id: ${id} deleted succussfully`
-            });
-        }
-        else{
-            res.status(404).json({
-                "msg": `Car with id: ${id} is deleted`
+                "message": `Car with id: ${id} deleted sucussfully`
             })
-        }
-        res.status(200).json({
-            "msg": "Sucess",
-            "data": data
-        })
-    })
+       })
     .catch((err) => {
         console.error(err);
         if(err.name === 'CastError') {

@@ -24,9 +24,7 @@ const userSchema = Schema(
             lowercase: true,
             trim: true,
         },
-        image_id:{
-            type: String
-        },
+
         restorer:{
             type: String
         },
