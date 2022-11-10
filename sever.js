@@ -39,6 +39,8 @@ app.use('/api/users', require('./routes/users'));
 
 app.use('/api/cars', require('./routes/cars'));
 
+app.use('/api/auto_parts', require('./routes/auto_parts'));
+
 
 app.listen(port, () => {
     console.log(`Example app listening on port ${port}`);

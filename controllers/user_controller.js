@@ -1,6 +1,7 @@
 const User = require('../models/user_schema.js');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+
 //register user
 const register = (req, res) => {
     let newUser = new User(req.body);
